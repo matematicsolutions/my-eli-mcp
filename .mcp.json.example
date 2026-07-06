@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "my-eli-mcp": {
+      "command": "my-eli-mcp",
+      "env": {
+        "MY_ELI_BASE_URL": "https://lom.agc.gov.my",
+        "MY_ELI_CACHE_DIR": "~/.matematic/cache/my-eli",
+        "MY_ELI_AUDIT_DIR": "~/.matematic/audit"
+      }
+    }
+  }
+}

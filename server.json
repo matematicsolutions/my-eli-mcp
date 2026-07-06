@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.matematicsolutions/my-eli-mcp",
+  "description": "MCP server for Laws of Malaysia Online: fetch and cite Malaysian principal Acts.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/matematicsolutions/my-eli-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "my-eli-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
