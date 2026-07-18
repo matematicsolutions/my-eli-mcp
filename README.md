@@ -62,6 +62,25 @@ No API key. lom.agc.gov.my is keyless.
 }
 ```
 
+### Windows 11 ze Smart App Control
+
+Smart App Control blokuje niepodpisane pliki wykonywalne, a `uvx.exe`, `pip.exe`
+i generowany przy instalacji `my-eli-mcp.exe` podpisane nie sa. `python.exe`
+z python.org jest podpisany przez Python Software Foundation, wiec uruchomienie
+przez modul omija blokade:
+
+```bash
+python -m pip install my-eli-mcp
+python -m my_eli_mcp
+```
+
+```json
+{ "mcpServers": { "my-eli-mcp": { "command": "python", "args": ["-m", "my_eli_mcp"] } } }
+```
+
+Nie wylaczaj Smart App Control, zeby to obejsc - wylaczenia nie da sie cofnac
+bez ponownej instalacji systemu.
+
 ## Governance
 
 - **Public data only** - read-only against lom.agc.gov.my; no client data leaves the machine.
