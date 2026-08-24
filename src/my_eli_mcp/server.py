@@ -40,6 +40,7 @@ This MVP covers **principal Acts only** (e.g. `act-detail.php?act=883`), address
 
 ## Hard constraints
 
+- **Do not answer past the edge of this corpus** - when a search comes back empty, or the question touches material this connector does not carry, call `my_coverage` and relay what it says is missing. Absence here is not absence in the law.
 - **Address by act number, not keywords** - there is no confirmed free-text search API on this portal; discovery is by coordinate.
 - **No native ELI** - Malaysia has not deployed ELI. `eli_uri` is the lom.agc.gov.my act page URL, never invented; see `eli_note`.
 - **Text comes from the PDF** - `my_get_text` extracts text from the official PDF; layout artefacts are possible. Relay the `text_note`.
