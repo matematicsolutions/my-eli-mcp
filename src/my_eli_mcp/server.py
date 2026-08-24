@@ -24,6 +24,7 @@ from .citations import build_record, extract_pdf_text, resolve_pdf_url
 from . import runtime
 from .client import DEFAULT_BASE_URL, LomClient
 from .models import Act, LawText
+from .coverage import Coverage, build_coverage
 
 INSTRUCTIONS = """\
 This MCP server exposes lom.agc.gov.my (Laws of Malaysia Online), the Attorney-General's Chambers' official portal for Malaysian federal legislation. Documents are addressed by a numeric act coordinate. Every response carries a stable `eli_uri`, a `human_readable_citation` and a `source_url` (the citation contract).
@@ -142,6 +143,20 @@ async def my_get_act(act_number: int) -> Act:
 
 # ---------------------------------------------------------------------------
 # my_get_text
+@mcp.tool(annotations=READ_ONLY)
+async def my_coverage() -> Coverage:
+    """Declare what this connector covers, how it is sourced, and what it does NOT cover.
+
+    Call this before telling a user that the law "does not contain" something, and whenever
+    a search comes back empty: the absence may be a gap in this connector rather than in the
+    law. Every gap carries a fallback saying where to look instead.
+
+    Returns:
+        ``Coverage`` with families, an as-of note, and a non-empty list of known gaps.
+    """
+    return build_coverage()
+
+
 # ---------------------------------------------------------------------------
 
 

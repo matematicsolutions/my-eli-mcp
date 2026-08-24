@@ -26,6 +26,7 @@ publishes only PDF.
 |---|---|
 | `my_get_act` | Metadata for a principal Act by its numeric act coordinate. |
 | `my_get_text` | The full text of an Act, extracted from the official PDF. |
+| `my_coverage` | Declare what this connector covers, when each family was captured, and - explicitly - what it does NOT cover. Every gap carries a fallback. |
 
 Every response carries the contract: `eli_uri` (Malaysia has no ELI - this is the durable
 lom.agc.gov.my act page URL, e.g. `https://lom.agc.gov.my/act-detail.php?language=BI&act=883`,
