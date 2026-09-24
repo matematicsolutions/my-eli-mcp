@@ -1,0 +1,369 @@
+{
+  "package_version": "0.3.3",
+  "tools": {
+    "my_coverage": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Declare what this connector covers, how it is sourced, and what it does NOT cover.\n\nCall this before telling a user that the law \"does not contain\" something, and whenever\na search comes back empty: the absence may be a gap in this connector rather than in the\nlaw. Every gap carries a fallback saying where to look instead.\n\nReturns:\n    ``Coverage`` with families, an as-of note, and a non-empty list of known gaps.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "my_coverage",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "What this connector covers, how it is sourced, and what it does not cover.",
+          "properties": {
+            "as_of_note": {
+              "description": "States what the dates mean, and what they do not promise.",
+              "type": "string"
+            },
+            "families": {
+              "items": {
+                "additionalProperties": true,
+                "description": "One data family this connector exposes.",
+                "properties": {
+                  "captured_at": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Date this family was last captured (ISO). None when queried live."
+                  },
+                  "live": {
+                    "default": true,
+                    "description": "True when queried live instead of from a snapshot.",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "Data family, e.g. 'Federal legislation'.",
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Official source the data comes from.",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "description": "Tool or tools that reach this family.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "tool",
+                  "source"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "known_gaps": {
+              "description": "Never empty. An empty list would mean 'not checked', not 'no gaps'.",
+              "items": {
+                "additionalProperties": true,
+                "description": "A known, named hole in this connector's coverage - plus the way around it.",
+                "properties": {
+                  "fallback": {
+                    "description": "Where to go instead.",
+                    "type": "string"
+                  },
+                  "family": {
+                    "description": "Which family the gap belongs to.",
+                    "type": "string"
+                  },
+                  "id": {
+                    "description": "Stable gap identifier.",
+                    "type": "string"
+                  },
+                  "missing": {
+                    "description": "What is NOT available through this connector.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "family",
+                  "missing",
+                  "fallback"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "status": {
+              "default": "ok",
+              "enum": [
+                "ok",
+                "degraded",
+                "failed"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "as_of_note"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "08fb5eebdbc5a2dcd6b3b32eeaa218db937ed2136dc357eed8fa3cf4840b56b4"
+    },
+    "my_get_act": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch metadata for a Malaysian principal Act by its numeric act coordinate.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "act_number": {
+              "description": "e.g. ``883``.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "act_number"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "my_get_act",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "Result of ``my_get_act`` - metadata only, no body text.",
+          "properties": {
+            "act_number": {
+              "type": "integer"
+            },
+            "dataset_note": {
+              "default": "lom.agc.gov.my (Laws of Malaysia Online) is the Attorney-General's Chambers' official portal for Malaysian federal legislation. This MVP covers principal Acts only, addressed by their numeric act coordinate (e.g. 883); amendments and subsidiary legislation (P.U. (A)/(B) notices) are not yet covered. Malaysia has no ELI scheme; eli_uri carries the durable lom.agc.gov.my act page URL (see eli_note).",
+              "type": "string"
+            },
+            "eli_note": {
+              "default": "Malaysia has not deployed ELI. eli_uri is the durable lom.agc.gov.my act page URL (https://lom.agc.gov.my/act-detail.php?language=BI&act={act_number}), keyed on the portal's own numeric act coordinate - never invented.",
+              "type": "string"
+            },
+            "eli_uri": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "pdf_path": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "title": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "act_number"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "78ebfb4f0a45d477de7ab101c448592e19a23fc7c131b740d72cb313f206f459"
+    },
+    "my_get_text": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch the full text of a Malaysian principal Act (extracted from its official PDF).",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "act_number": {
+              "description": "e.g. ``883``.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "act_number"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "my_get_text",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "Result of ``my_get_text`` - the full text of an Act (extracted from its official PDF).",
+          "properties": {
+            "act_number": {
+              "type": "integer"
+            },
+            "byte_size": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "content": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "dataset_note": {
+              "default": "lom.agc.gov.my (Laws of Malaysia Online) is the Attorney-General's Chambers' official portal for Malaysian federal legislation. This MVP covers principal Acts only, addressed by their numeric act coordinate (e.g. 883); amendments and subsidiary legislation (P.U. (A)/(B) notices) are not yet covered. Malaysia has no ELI scheme; eli_uri carries the durable lom.agc.gov.my act page URL (see eli_note).",
+              "type": "string"
+            },
+            "eli_note": {
+              "default": "Malaysia has not deployed ELI. eli_uri is the durable lom.agc.gov.my act page URL (https://lom.agc.gov.my/act-detail.php?language=BI&act={act_number}), keyed on the portal's own numeric act coordinate - never invented.",
+              "type": "string"
+            },
+            "eli_uri": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "pdf_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "text_note": {
+              "default": "Extracted from the official PDF with pypdf; minor layout artefacts (page numbers, column breaks) are possible.",
+              "type": "string"
+            },
+            "title": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "act_number"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "97036edfbb50194d1215ec8c04c7a1488251f18ba96fc0a88db972aa0510b3eb"
+    }
+  },
+  "toolset_sha256": "f02a2fe1a9aff41a46ae69c49b8d8b279a012b49023f8aa8c9a5af5c500960b4"
+}
